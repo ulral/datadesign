@@ -1,0 +1,14 @@
+<Grid>
+    <Cfg id="Pivot" PivotMaster="TG_DATA_ATTR_ITEM" SuppressCfg="1"
+         PivotCols="ATTR_ITEM" PivotRows="ATTR_SN,ATTR_ROW" PivotData="ATTR_VALUE,USE_YN"
+         PivotExpanded="1,0"
+    /> <!-- Base definition, saves configuration to cookies -->
+    <Cfg Size="Normal"/> <!-- Smaller size for large grid -->
+<!--    <Cfg PivotControlMaster="1"/> &lt;!&ndash; Hides the master grid when the pivot grid has data and vice versa &ndash;&gt;-->
+    <Cfg PivotShowParent="0"/> <!-- Shows summary columns by default -->
+
+    <DefCols>
+        <!-- 자동으로 생성되는 컬럼의 기본 너비를 설정하는 것이 성능상 권장됩니다 [6] -->
+        <D Name='Pivot' Width='100'/>
+    </DefCols>
+</Grid>

@@ -1,0 +1,27 @@
+<Grid>
+    <Cfg id="TG_DATA_ATTR_ITEM"/>
+    <Cfg SafeCSS="1"/>
+    <Cfg Style="Standard"/>
+    <Cfg Sort="ATTR_SN" Sorting="1"/>
+
+    <!-- - Columns  -->
+    <Panel Visible="1"/>
+    <LeftCols>
+        <C Name="ATTR_SN"/>
+    </LeftCols>
+    <Cols>
+        <C Name="ATTR_ROW" Type="Int"/>
+        <C Name="SN" Type="Int"/>
+        <C Name="ATTR_ITEM"/>
+        <C Name="ATTR_VALUE"/>
+        <C Name="USE_YN"/>
+    </Cols>
+
+    <!--  Rows  -->
+    <Header SN="ID" ATTR_SN="ATTR_SN" ATTR_ROW="ATTR_ROW" ATTR_ITEM="ATTR_ITEM" ATTR_VALUE="ATTR_VALUE" USE_YN="USE_YN" Visible="1"/>
+
+    <Toolbar id="Toolbar" Visible="1" Space="-1" Tag="" CanHide="0"
+             SaveButton="Class"
+             ExportPDFButton="Class"
+             ExportButton="Class" />
+</Grid>

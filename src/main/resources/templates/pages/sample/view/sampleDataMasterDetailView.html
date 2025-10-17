@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/treegrid}">
+
+<div class="container-fluid" layout:fragment="content">
+    <div class="row mb-3 text-center">
+        <div class="col-5 themed-grid-col vh-100">
+            <treegrid
+                    Data_Url="/treegrid/treegridData.do" Data_Param_Class="DataAttrItem"
+                    Layout_Url="/sample/sampleGridDataItemLayout.do"
+                    Upload_Url="/treegrid/treegridUpload.do" Upload_Param_Class="DataAttrItem"  Upload_Data="DATA"
+                    Upload_Flags="AllCols"  Upload_Format="JSON"
+                    Upload_Type="Changes"
+            >
+            </treegrid> <!-- TreeGrid data source definition -->
+        </div>
+        <div class="col-5 themed-grid-col vh-100">
+            <treegrid
+                    Layout_Url="/sample/sampleGridDataItemPivotLayout.do"
+                    Upload_Url="/treegrid/treegridUpload.do" Upload_Param_Class="DataAttrItem"  Upload_Data="DATA"
+                    Upload_Flags="AllCols"  Upload_Format="JSON"
+                    Upload_Type="Changes"
+            >
+            </treegrid> <!-- TreeGrid data source definition -->
+        </div>
+    </div>
+</div>
+</html>
