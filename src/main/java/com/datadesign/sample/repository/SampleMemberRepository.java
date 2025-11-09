@@ -1,4 +1,7 @@
-package com.datadesign.sample;
+package com.datadesign.sample.repository;
 
-public class SampleMemberRepository {
+import com.datadesign.sample.model.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SampleMemberRepository extends JpaRepository<Member, Long> {
 }

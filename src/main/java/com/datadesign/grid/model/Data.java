@@ -1,15 +1,15 @@
-package com.datadesign.treegrid.model;
+package com.datadesign.grid.model;
 
+import com.datadesign.treegrid.model.TGUploadData;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Data;
 
-@Data
+@lombok.Data
 @Entity
 @Table(name = "TG_DATA", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"SN", "DATA"})
 })
-public class TGData extends TGUploadData {
+public class Data extends TGUploadData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SN")

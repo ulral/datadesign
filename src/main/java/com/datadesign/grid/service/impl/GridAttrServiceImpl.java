@@ -2,24 +2,29 @@ package com.datadesign.grid.service.impl;
 
 import com.datadesign.grid.model.GridAttr;
 import com.datadesign.grid.repository.GridAttrRepository;
-import com.datadesign.grid.service.TGGridAttrService;
+import com.datadesign.treegrid.service.TGService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TGGridAttrServiceImpl implements TGGridAttrService {
+public class GridAttrServiceImpl implements TGService<GridAttr> {
 
     private final GridAttrRepository repository;
 
-    public TGGridAttrServiceImpl(GridAttrRepository repository) {
+    public GridAttrServiceImpl(GridAttrRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public GridAttr save(GridAttr grid) {
-        return repository.save(grid);
+    public GridAttr save(GridAttr entity) {
+        return repository.save(entity);
+    }
+
+    @Override
+    public List<GridAttr> saveAll(List<GridAttr> entities) {
+        return repository.saveAll(entities);
     }
 
     @Override
@@ -35,6 +40,11 @@ public class TGGridAttrServiceImpl implements TGGridAttrService {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Class<GridAttr> getTargetType() {
+        return GridAttr.class;
     }
 
 }

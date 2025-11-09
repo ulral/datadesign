@@ -7,7 +7,7 @@
         <div class="col-5 themed-grid-col vh-100 pivot">
             <treegrid
                     Data_Url="/treegrid/treegridData.do" Data_Param_Class="DataAttrItem"
-                    Layout_Url="/sample/sampleDataItemLayout.do"
+                    Layout_Url="/treegrid/treegridLayout.do" Layout_Param_Id="TG_DATA_ATTR_ITEM"  Layout_Param_Data="TG_DATA_ATTR_ITEM"
                     Upload_Url="/treegrid/treegridUpload.do" Upload_Param_Class="DataAttrItem"  Upload_Data="DATA"
                     Upload_Flags="AllCols"  Upload_Format="JSON"
                     Upload_Type="Changes"
@@ -16,7 +16,7 @@
         </div>
         <div class="col-5 themed-grid-col vh-100 pivot">
             <treegrid
-                    Layout_Url="/sample/sampleDataItemPivotLayout.do"
+                    Layout_Url="/sample/sampleDataAttrItemPivotLayout.do"
                     Upload_Url="/treegrid/treegridUpload.do" Upload_Param_Class="DataAttrItem"  Upload_Data="DATA"
                     Upload_Flags="AllCols"  Upload_Format="JSON"
                     Upload_Type="Changes"

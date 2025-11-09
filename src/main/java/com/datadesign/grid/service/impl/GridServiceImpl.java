@@ -1,41 +1,48 @@
-package com.datadesign.treegrid.service.impl;
+package com.datadesign.grid.service.impl;
 
-import com.datadesign.treegrid.model.TGGrid;
-import com.datadesign.treegrid.repository.TGGridRepository;
-import com.datadesign.treegrid.service.TGGridService;
+import com.datadesign.grid.model.Grid;
+import com.datadesign.grid.repository.GridRepository;
+import com.datadesign.treegrid.service.TGService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TGGridServiceImpl implements TGGridService {
+public class GridServiceImpl implements TGService<Grid> {
 
-    private final TGGridRepository repository;
+    private final GridRepository repository;
 
-    public TGGridServiceImpl(TGGridRepository repository) {
+    public GridServiceImpl(GridRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public TGGrid save(TGGrid grid) {
+    public Grid save(Grid grid) {
         return repository.save(grid);
     }
 
     @Override
-    public Optional<TGGrid> findById(Long id) {
+    public List<Grid> saveAll(List<Grid> grids) {
+        return repository.saveAll(grids);
+    }
+    @Override
+    public Optional<Grid> findById(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public List<TGGrid> findAll() {
+    public List<Grid> findAll() {
         return repository.findAll();
     }
 
     @Override
+    public Class<Grid> getTargetType() {
+        return Grid.class;
+    }
+
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
-
 }
 

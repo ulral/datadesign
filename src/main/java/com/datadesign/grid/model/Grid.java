@@ -1,5 +1,6 @@
-package com.datadesign.treegrid.model;
+package com.datadesign.grid.model;
 
+import com.datadesign.treegrid.model.TGUploadData;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "TG_GRID")
-public class TGGrid extends TGUploadData {
+public class Grid extends TGUploadData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,8 @@
-INSERT INTO POSITION (id, title) VALUES (1, 'Intern');
-INSERT INTO POSITION (id, title) VALUES (2, 'Staff');
-INSERT INTO POSITION (id, title) VALUES (3, 'Senior Staff');
-INSERT INTO POSITION (id, title) VALUES (4, 'Manager');
-INSERT INTO POSITION (id, title) VALUES (5, 'Director');
-
+INSERT INTO TG_GRID_ATTR (SN, GRID_SN, ATTR, USE_YN)
+VALUES
+    (1, 1, 'Cfg', 'Y'),
+    (2, 1, 'Toolbar', 'Y'),
+    (3, 1, 'Panel', 'Y'),
+    (4, 2, 'Cfg', 'Y'),
+    (5, 1, 'IO', 'Y');
+ALTER TABLE TG_GRID_ATTR ALTER COLUMN SN RESTART WITH 6;

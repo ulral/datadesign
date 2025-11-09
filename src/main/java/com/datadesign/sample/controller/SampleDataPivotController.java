@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("sample")
 @RequiredArgsConstructor
-public class SampleGridDataPivotController {
+public class SampleDataPivotController {
     private final SampleMemberService memberService;
 
     @GetMapping("sampleDataPivotView.do")
     public String  sampleDataPivotView(){
         return "/pages/sample/view/sampleDataPivotView";
     }
-    @RequestMapping("sampleDataAttrPivotLayout.do")
+    @RequestMapping("sampleDataAttrLayout.do")
     public String sampleDataAttrPivotLayout() {
         return "/pages/sample/layout/pivot/sampleDataAttrPivotLayout";
     }
-    @RequestMapping("sampleDataItemPivotLayout.do")
+    @RequestMapping("sampleDataAttrItemPivotLayout.do")
     public String sampleDataAttrItemPivotLayout() {
         return "/pages/sample/layout/pivot/sampleDataAttrItemPivotLayout";
     }

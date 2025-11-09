@@ -1,25 +1,38 @@
 <Grid>
-    <Cfg id="TG_DATA_ATTR_ITEM"/>
+    <Cfg id="TG_DATA_ATTR" DetailOn="1" SuppressCfg="1" Undo="1" CopyPasteTree="3" CopyCols="2"/>
     <Cfg SafeCSS="1"/>
     <Cfg Style="Standard"/>
     <Cfg Sort="ATTR_SN" Sorting="1"/>
 
-    <!-- - Columns  -->
     <Panel Visible="1"/>
+
+    <!-- - Columns  -->
     <LeftCols>
         <C Name="ATTR_SN"/>
     </LeftCols>
     <Cols>
-        <C Name="ATTR_ROW" Type="Int"/>
         <C Name="SN" Type="Int"/>
-        <C Name="ATTR_ITEM"/>
-        <C Name="ATTR_VALUE"/>
+        <C Name="DATA_SN" Type="Int"/>
+        <C Name="ATTR"/>
         <C Name="USE_YN"/>
+        <C Name="SN" Type="Lines" Visible="0" CanHide="0"/>
+        <C Name="ATTR_ITEM" Type="Lines" Visible="0" CanHide="0"/>
+        <C Name="ATTR_ROW" Type="Lines" Visible="0" CanHide="0"/>
+        <C Name="ATTR_SN" Type="Lines" Visible="0" CanHide="0"/>
+        <C Name="ATTR_VALUE" Type="Lines" Visible="0" CanHide="0"/>
+        <C Name="USE_YN" Type="Lines" Visible="0" CanHide="0"/>
     </Cols>
-
+    <Def>
+        <!--  The default row for all master rows  -->
+        <D Name="MAIN" CDef="DETAIL" AcceptDef="DETAIL" Detail="TG_DATA_ATTR_ITEM" Expanded="0" CanExpand="0"/>
+        <!--  The default row for all detail rows  -->
+        <D Name="DETAIL"/>
+        <!--  Default row for group rows  -->
+        <D Name="Group" AggChildren="1" Expanded="1" CanFilter="2"/>
+    </Def>
     <!--  Rows  -->
-    <Header SN="ID" ATTR_SN="ATTR_SN" ATTR_ROW="ATTR_ROW" ATTR_ITEM="ATTR_ITEM" ATTR_VALUE="ATTR_VALUE" USE_YN="USE_YN" Visible="1"/>
-
+    <Header SN="시퀀스" DATA_SN="데이터 시퀀스" ATTR="데이터 속성" USE_YN="USE_YN" Visible="1"/>
+    <Root CDef="MAIN" AcceptDef="MAIN"/>
     <Toolbar id="Toolbar" Visible="1" Space="-1" Tag="" CanHide="0"
              SaveButton="Class"
              ExportPDFButton="Class"

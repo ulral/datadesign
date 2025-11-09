@@ -1,5 +1,5 @@
 <Grid>
-    <Cfg id="TG_DATA_ATTR_ITEM"/>
+    <Cfg id="TG_DATA_ATTR_ITEM" Detail="1" SuppressCfg="1" />
     <Cfg SafeCSS="1"/>
     <Cfg Style="Standard"/>
     <Cfg Sort="ATTR_SN" Sorting="1"/>
@@ -10,18 +10,22 @@
         <C Name="ATTR_SN"/>
     </LeftCols>
     <Cols>
-        <C Name="ATTR_ROW" Type="Int"/>
-        <C Name="SN" Type="Int"/>
-        <C Name="ATTR_ITEM"/>
-        <C Name="ATTR_VALUE"/>
-        <C Name="USE_YN"/>
+        <C Name="SN" Type="Lines"/>
+        <C Name="ATTR_ITEM" Type="Lines"/>
+        <C Name="ATTR_ROW" Type="Lines"/>
+        <C Name="ATTR_SN" Type="Lines"/>
+        <C Name="ATTR_VALUE" Type="Lines"/>
+        <C Name="USE_YN" Type="Lines"/>
     </Cols>
 
     <!--  Rows  -->
     <Header SN="ID" ATTR_SN="ATTR_SN" ATTR_ROW="ATTR_ROW" ATTR_ITEM="ATTR_ITEM" ATTR_VALUE="ATTR_VALUE" USE_YN="USE_YN" Visible="1"/>
-
+    <Root CDef="DETAIL" AcceptDef="DETAIL"/>
     <Toolbar id="Toolbar" Visible="1" Space="-1" Tag="" CanHide="0"
              SaveButton="Class"
              ExportPDFButton="Class"
              ExportButton="Class" />
+    <Body>
+    <B> </B>
+    </Body>
 </Grid>

@@ -1,6 +1,17 @@
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/treegrid}">
-<div th:fragment="scripts">
 
+
+<div class="p-2" th:fragment="header">
+    <link rel="stylesheet" href="/lib/bootstrap-5.3.8/breadcrumbs/breadcrumbs.css" />
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+            <li class="breadcrumb-item">
+                <svg class="bi" width="16" height="16" aria-hidden="true"><use xlink:href="#grid"></use></svg>
+                <span class="visually-hidden">Home</span>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <span></span>
+            </li>
+        </ol>
+    </nav>
 </div>
-</html>

@@ -2,8 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>홈</title>
-    <script src="/js/lib/TreeGrid/GridE.js" ></script>
-    <script src="/js/lib/jQuery/dist/jquery.js" ></script>
+    <!-- 공통 CSS/JS -->
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/lib/TreeGrid/GridE.js" ></script>
+
+    <script src="/lib/bootstrap-5.3.8/assets/js/color-modes.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
 </head>
 <body>
 <H3>SAMPLE MEMBER</H3>
@@ -11,9 +17,9 @@
     <treegrid
             Data_Url="/sample/memberData.do"    Data_Format="JSON" Data_Data="Data"
             Layout_Url="/sample/memberLayout.do"
-            Upload_Url="/sample/memberUpload.do" Upload_Data="DATA"
+            Upload_Url="/sample/memberUpload.do" Upload_Data="DATA" Upload_Param_Class="Member"
             Upload_Flags="AllCols"  Upload_Format="JSON"
-            Upload_Type="Changes,Selected,Cells,Body,Data,All"
+            Upload_Type="Changes,Selected,Cells,Body,Data,All,Text"
     >
     </treegrid> <!-- TreeGrid data source definition -->
 </div>

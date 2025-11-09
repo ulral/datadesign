@@ -1,4 +1,4 @@
-package com.datadesign.treegrid;
+package com.datadesign.treegrid.model;
 
 import java.util.*;
 

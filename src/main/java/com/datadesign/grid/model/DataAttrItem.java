@@ -10,7 +10,7 @@ import lombok.Data;
 @Table(name = "TG_DATA_ATTR_ITEM", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"ATTR_SN", "ATTR_ROW", "ATTR_ITEM"})
 })
-public class TGDataAttrItem extends TGUploadData {
+public class DataAttrItem extends TGUploadData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

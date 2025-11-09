@@ -1,8 +1,15 @@
-package com.datadesign.treegrid.controller;
+package com.datadesign.grid.controller;
 
-import com.datadesign.treegrid.model.*;
-import com.datadesign.treegrid.service.*;
+import com.datadesign.grid.model.DataAttrItem;
+import com.datadesign.grid.model.GridAttrItem;
+import com.datadesign.grid.service.DataAttrItemService;
+import com.datadesign.grid.service.GridAttrItemService;
+import com.datadesign.treegrid.config.TGRegistry;
+import com.datadesign.treegrid.model.TGDownloadForm;
+import com.datadesign.treegrid.model.TGUploadForm;
+import com.datadesign.treegrid.service.TGService;
 import com.datadesign.treegrid.util.TGConvertData;
+import com.datadesign.treegrid.util.TGReflections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +23,10 @@ import java.util.Map;
 @RequestMapping("treegrid")
 @RequiredArgsConstructor
 public class TreeGridController {
-    private final TGGridService tgGridService;
-    private final TGDataService tgDataService;
-    private final TGGridAttrService tgGridAttrService;
-    private final TGDataAttrService tgDataAttrService;
-    private final TGGridAttrItemService tgGridAttrItemService;
-    private final TGDataAttrItemService tgDataAttrItemService;
+    private final TGReflections tgReflections;
+    private final TGRegistry tgRegistry;
+    private final DataAttrItemService dataAttrItemService;
+    private final GridAttrItemService gridAttrItemService;
 
     @GetMapping("TGGridView.do")
     public String TGGridView(Model model) {
@@ -34,41 +39,14 @@ public class TreeGridController {
         return "/pages/treegrid/TGDataView";
     }
 
-    @GetMapping("TGGrid.do")
+    @GetMapping("treegridData.do")
     @ResponseBody
-    public TGDownloadForm<?> TGGrid( @RequestParam(value = "Class", required = false) String type) {
-
-        return TGDownloadForm.init(tgGridService.findAll());
-    }
-
-    @GetMapping("TGGridAttr.do")
-    @ResponseBody
-    public TGDownloadForm<TGGridAttr> TGGridAttr() {
-        return TGDownloadForm.init(tgGridAttrService.findAll());
-    }
-
-    @GetMapping("TGGridAttrItem.do")
-    @ResponseBody
-    public TGDownloadForm<TGGridAttrItem> TGGridAttrItem() {
-        return TGDownloadForm.init(tgGridAttrItemService.findAll());
-    }
-
-    @GetMapping("TGData.do")
-    @ResponseBody
-    public TGDownloadForm<TGData> TGData() {
-        return TGDownloadForm.init(tgDataService.findAll());
-    }
-
-    @GetMapping("TGDataAttr.do")
-    @ResponseBody
-    public TGDownloadForm<TGDataAttr> TGDataAttr() {
-        return TGDownloadForm.init(tgDataAttrService.findAll());
-    }
-
-    @GetMapping("TGDataAttrItem.do")
-    @ResponseBody
-    public TGDownloadForm<TGDataAttrItem> TGDataAttrItem() {
-        return TGDownloadForm.init(tgDataAttrItemService.findAll());
+    public TGDownloadForm<?> treegridData(
+            @RequestParam(value = "Class", required = false) String type
+    ) throws Exception {
+        Class<?> clazz = tgReflections.getClass(type);
+        TGService<?> service = tgRegistry.getService(clazz);
+        return TGDownloadForm.init(service.findAll());
     }
 
     @GetMapping("treegridLayout.do")
@@ -76,31 +54,49 @@ public class TreeGridController {
     public Map<String,Object> treegridLayout(
             @RequestParam(value = "Id", required = false, defaultValue = "id") String id,
             @RequestParam(value = "Grid", required = false, defaultValue = "Basic") String gridName,
-            @RequestParam(value = "Data", required = false) String dataName
+            @RequestParam(value = "Data") String dataName
     ) {
-        List<TGGridAttrItem> gridAttrItems = tgGridAttrItemService.findGridLayoutRaw(gridName);
-        List<TGDataAttrItem> gridDataItems = tgDataAttrItemService.findDataLayoutRaw(dataName);
+        // 1. DB에 저장한 TreeGrid Layout의 속성값을 조회
+        List<GridAttrItem> gridAttrItems = gridAttrItemService.findGridLayoutRaw(gridName);
+        List<DataAttrItem> gridDataItems = dataAttrItemService.findDataLayoutRaw(dataName);
+        // 2. layout Cfg태그의 id속성에 Layout_Param_Id에 지정한 값을 부여
+        Map<String, Map<String, Object>> config = TGConvertData.convertToGroupedMap(gridAttrItems);
+        config.computeIfAbsent("Cfg", k -> new HashMap<>()).put("id", id);
+        // 3. TreeGrid 속성을 조회한 값들을 JSON 타입으로 변환
+        Map<String, List<Map<String, Object>>> column = TGConvertData.convertGridDataItems(gridDataItems);
 
-        Map<String, Map<String, Object>> grouped = TGConvertData.convertToGroupedMap(gridAttrItems);
-        grouped.computeIfAbsent("Cfg", k -> new HashMap<>()).put("id", id);
-        ;
-        Map<String, List<Map<String, Object>>> layout = TGConvertData.convertGridDataItems(gridDataItems);
-
-        return TGConvertData.mergeGridLayout(grouped, layout);
+        return TGConvertData.mergeGridLayout(config, column);
     }
 
     @PostMapping("treegridUpload.do")
     @ResponseBody
     public Map<String, Object> treegridUpload(
-        @RequestBody TGUploadForm<TGGrid> json,
-        @RequestParam(value = "Class", required = false) String type
+        @RequestBody TGUploadForm<?> json,
+        @RequestParam(value = "Class") String type
     ) {
-        System.out.println(json);
         Map<String, Object> result = new HashMap<>();
-        Map<String, Object> item = new HashMap<>();
-        item.put("Result", "0");
-        item.put("Message", "저장되었습니다!");
-        result.put("IO", item);
+        Map<String, Object> out = new HashMap<>();
+        
+        try{
+            Class<?> clazz = tgReflections.getClass(type);
+            List<?> saved = tgRegistry.saveAll(clazz, json.getChanges());
+            if(saved == null || saved.isEmpty()){
+                out.put("Result", "-1");
+                out.put("Message", "저장된 항목이 없습니다.");
+            }
+            else{
+                out.put("Result", "0");
+                out.put("Message", saved.size() + "건 저장되었습니다.");
+            }
+                result.put("IO", out);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            out.put("Result", "-1");
+            out.put("Message", "오류가 발생했습니다!");
+            result.put("IO", out);
+        }
         return result;
     }
+
 }

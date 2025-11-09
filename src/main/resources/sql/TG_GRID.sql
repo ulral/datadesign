@@ -1,6 +1,4 @@
-INSERT INTO POSITION (id, title) VALUES (1, 'Intern');
-INSERT INTO POSITION (id, title) VALUES (2, 'Staff');
-INSERT INTO POSITION (id, title) VALUES (3, 'Senior Staff');
-INSERT INTO POSITION (id, title) VALUES (4, 'Manager');
-INSERT INTO POSITION (id, title) VALUES (5, 'Director');
-
+INSERT INTO TG_GRID (SN, GRID, NAME, USE_YN)
+VALUES (1, 'Basic', '기본', 'Y'),
+       (2, 'BasicBlack', '기본', 'Y');
+ALTER TABLE TG_GRID ALTER COLUMN SN RESTART WITH 3;

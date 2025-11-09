@@ -1,14 +1,20 @@
 package com.datadesign.treegrid.util;
 
+import jakarta.persistence.Entity;
 import org.reflections.Reflections;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
+@Component
+public class TGReflections {
+    @Value("${common.base-package}")
+    private String basePackage;
 
-public class TGClassName {
     public Class<?> getClass(String simpleName) throws ClassNotFoundException {
-        Reflections reflections = new Reflections("com.datadesign"); // 루트 패키지 기준
+        Reflections reflections = new Reflections(basePackage); // 루트 패키지 기준
 
-        Set<Class<?>> allClasses = reflections.getSubTypesOf(Object.class);
+        Set<Class<?>> allClasses = reflections.getTypesAnnotatedWith(Entity.class);
         for (Class<?> clazz : allClasses) {
             if (clazz.getSimpleName().equals(simpleName)) {
                 return clazz;

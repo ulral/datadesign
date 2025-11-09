@@ -11,13 +11,204 @@
     <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
     <script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
+    <script src="/lib/TreeGrid/GridE.js" ></script>
+
+    <script src="/lib/bootstrap-5.3.8/assets/js/color-modes.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            let isNoticeActive = false;
+            const noticeBar = document.getElementById("notice-bar");
+            const noticeMessage = document.getElementById("notice-message");
+
+            // 저장된 공지 복원
+            const saved = localStorage.getItem("activeNotice");
+            if (saved) {
+                const { message, duration, timestamp } = JSON.parse(saved);
+                const elapsed = Date.now() - timestamp;
+
+                if (elapsed < duration) {
+                    showNotice(message, duration - elapsed);
+                } else {
+                    localStorage.removeItem("activeNotice");
+                }
+            }
+
+            // SSE 연결
+            const eventSource = new EventSource("/subscribe");
+
+            eventSource.addEventListener("notice", function (event) {
+                if (isNoticeActive) return;
+
+                try {
+                    const data = JSON.parse(event.data);
+                    const message = data.message || "";
+                    const duration = (data.duration || 10) * 1000;
+
+                    localStorage.setItem("activeNotice", JSON.stringify({
+                        message,
+                        duration,
+                        timestamp: Date.now()
+                    }));
+
+                    showNotice(message, duration);
+                } catch (e) {
+                    console.error("공지 파싱 오류:", e);
+                }
+            });
+
+            function showNotice(message, duration) {
+                const existingBar = document.getElementById("notice-bar");
+                if (existingBar) existingBar.remove();
+
+                // 스타일 삽입
+                if (!document.getElementById("notice-style")) {
+                    const style = document.createElement("style");
+                    style.id = "notice-style";
+                    style.textContent = `
+    @keyframes scroll-left {
+        0% { right: -100%; }
+        100% { right: 100%; }
+    }
+    #notice-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 30px;
+        background-color: #fffae6;
+        overflow: hidden;
+        z-index: 9999;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+    }
+    #notice-message {
+        position: relative;
+        white-space: nowrap;
+        display: inline-block;
+        animation: scroll-left 30s linear infinite;
+        font-size: 14px;
+        line-height: 30px;
+        color: #333;
+        right: -100%; /* 오른쪽에서 시작 */
+    }
+    #notice-close {
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        color: #666;
+        margin-left: 10px;
+    }
+    `;
+                    document.head.appendChild(style);
+                }
+
+                // 공지 바 생성
+                const noticeBar = document.createElement("div");
+                noticeBar.id = "notice-bar";
+
+                const noticeMessage = document.createElement("div");
+                noticeMessage.id = "notice-message";
+                noticeMessage.textContent = "🚨 " + message;
+
+                const closeButton = document.createElement("button");
+                closeButton.id = "notice-close";
+                closeButton.innerHTML = "&times;";
+                closeButton.title = "닫기";
+                closeButton.onclick = () => {
+                    noticeBar.remove();
+                    localStorage.removeItem("activeNotice");
+                };
+
+                noticeBar.appendChild(noticeMessage);
+                noticeBar.appendChild(closeButton);
+                document.body.appendChild(noticeBar);
+
+                // 전체 유지 시간 후 제거
+                setTimeout(() => {
+                    noticeBar.remove();
+                    localStorage.removeItem("activeNotice");
+                }, duration);
+            }
+
+        });
+    </script>
 </head>
 <body>
-    <div layout:fragment="script"></div>
-    <div th:replace="layout/sidebar :: sidebar"></div>
-    <main layout:fragment="content">
-        <!-- 여기에 각 페이지 내용이 들어옴 -->
+    <div th:replace="~{fragments/heads/symbols :: symbols}"></div>
+    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+        <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+                id="bd-theme"
+                type="button"
+                aria-expanded="false"
+                data-bs-toggle="dropdown"
+                aria-label="Toggle theme (auto)"
+        >
+            <svg class="bi my-1 theme-icon-active" aria-hidden="true">
+                <use href="#circle-half"></use>
+            </svg>
+            <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+            <li>
+                <button type="button"
+                        class="dropdown-item d-flex align-items-center"
+                        data-bs-theme-value="light"
+                        aria-pressed="false"
+                >
+                    <svg class="bi me-2 opacity-50" aria-hidden="true">
+                        <use href="#sun-fill"></use>
+                    </svg>
+                    Light
+                    <svg class="bi ms-auto d-none" aria-hidden="true">
+                        <use href="#check2"></use>
+                    </svg>
+                </button>
+            </li>
+            <li>
+                <button
+                        type="button"
+                        class="dropdown-item d-flex align-items-center"
+                        data-bs-theme-value="dark"
+                        aria-pressed="false"
+                >
+                    <svg class="bi me-2 opacity-50" aria-hidden="true">
+                        <use href="#moon-stars-fill"></use>
+                    </svg>
+                    Dark
+                    <svg class="bi ms-auto d-none" aria-hidden="true">
+                        <use href="#check2"></use>
+                    </svg>
+                </button>
+            </li>
+            <li>
+                <button
+                        type="button"
+                        class="dropdown-item d-flex align-items-center active"
+                        data-bs-theme-value="auto"
+                        aria-pressed="true"
+                >
+                    <svg class="bi me-2 opacity-50" aria-hidden="true">
+                        <use href="#circle-half"></use>
+                    </svg>
+                    Auto
+                    <svg class="bi ms-auto d-none" aria-hidden="true">
+                        <use href="#check2"></use>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+    </div>
+    <main class="d-flex flex-nowrap vh-100">
+        <div th:replace="~{fragments/sidebar/sidebar :: sidebar}"></div>
+        <div class="container-fluid gx-0">
+            <div th:replace="~{fragments/heads/header :: header}"></div>
+            <div layout:fragment="content"></div>
+        </div>
     </main>
 </body>
 </html>

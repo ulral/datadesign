@@ -10,7 +10,7 @@ import lombok.Data;
 @Table(name = "TG_GRID_ATTR", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"SN", "ATTR"})
 })
-public class TGGridAttr extends TGUploadData {
+public class GridAttr extends TGUploadData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -12,4 +12,5 @@ public class HomeController {
         model.addAttribute("message", "타임리프 페이지입니다!");
         return "home";
     }
+
 }

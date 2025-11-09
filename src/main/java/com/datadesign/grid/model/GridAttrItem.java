@@ -10,7 +10,7 @@ import lombok.Data;
 @Table(name = "TG_GRID_ATTR_ITEM", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"ATTR_SN", "ATTR_ITEM"})
 })
-public class TGGridAttrItem extends TGUploadData {
+public class GridAttrItem extends TGUploadData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class TGGridAttrItem extends TGUploadData {
     @ManyToOne
     @JoinColumn(name = "ATTR_SN") // DB 컬럼명도 변경 시 반영
     @JsonProperty("ATTR_SN")
-    private TGGridAttr attrSn;
+    private GridAttr attrSn;
 
     @Column(name = "ATTR_ITEM")
     @JsonProperty("ATTR_ITEM")

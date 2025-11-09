@@ -1,15 +1,15 @@
-package com.datadesign.treegrid.model;
+package com.datadesign.grid.model;
 
+import com.datadesign.treegrid.model.TGUploadData;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Data;
 
-@Data
+@lombok.Data
 @Entity
 @Table(name = "TG_DATA_ATTR", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"SN", "ATTR"})
 })
-public class TGDataAttr extends TGUploadData {
+public class DataAttr extends TGUploadData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class TGDataAttr extends TGUploadData {
     @ManyToOne
     @JoinColumn(name = "DATA_SN")
     @JsonProperty("DATA_SN")
-    private TGData dataSn;
+    private Data dataSn;
 
     @Column(name = "ATTR")
     @JsonProperty("ATTR")
@@ -29,4 +29,5 @@ public class TGDataAttr extends TGUploadData {
     @Column(name = "USE_YN")
     @JsonProperty("USE_YN")
     private char useYn;
+
 }

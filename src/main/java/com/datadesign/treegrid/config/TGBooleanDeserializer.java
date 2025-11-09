@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
 
-public class TGDeserializer extends JsonDeserializer<Boolean> {
+public class TGBooleanDeserializer extends JsonDeserializer<Boolean> {
     @Override
     public Boolean deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         String value = p.getText();

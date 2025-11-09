@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface TGDataAttrItemRepository extends JpaRepository<DataAttrItem, Long> {
+public interface DataAttrItemRepository extends JpaRepository<DataAttrItem, Long> {
     @Query(value = """
         SELECT ITEM.SN, ATTR.SN AS ATTR_SN, ITEM.ATTR_ROW, ITEM.ATTR_ITEM, ITEM.ATTR_VALUE, ITEM.USE_YN
         FROM TG_DATA DATA

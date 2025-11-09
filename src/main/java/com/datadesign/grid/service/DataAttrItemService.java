@@ -5,7 +5,7 @@ import com.datadesign.grid.model.DataAttrItem;
 import java.util.List;
 import java.util.Optional;
 
-public interface TGDataAttrItemService {
+public interface DataAttrItemService {
     DataAttrItem save(DataAttrItem attr);
     Optional<DataAttrItem> findById(Long id);
     List<DataAttrItem> findAll();

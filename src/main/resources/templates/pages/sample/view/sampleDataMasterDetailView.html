@@ -6,9 +6,9 @@
     <div class="row mb-3 text-center">
         <div class="col-5 themed-grid-col vh-100">
             <treegrid
-                    Data_Url="/treegrid/treegridData.do" Data_Param_Class="DataAttrItem"
-                    Layout_Url="/sample/sampleGridDataItemLayout.do"
-                    Upload_Url="/treegrid/treegridUpload.do" Upload_Param_Class="DataAttrItem"  Upload_Data="DATA"
+                    Data_Url="/treegrid/treegridData.do" Data_Param_Class="DataAttr"
+                    Layout_Url="/sample/sampleDataAttrMasterLayout.do"  Layout_Param_Id="TG_GRID_ATTR_ITEM"
+                    Upload_Url="/treegrid/treegridUpload.do" Upload_Param_Class="DataAttr"  Upload_Data="DATA"
                     Upload_Flags="AllCols"  Upload_Format="JSON"
                     Upload_Type="Changes"
             >
@@ -16,7 +16,7 @@
         </div>
         <div class="col-5 themed-grid-col vh-100">
             <treegrid
-                    Layout_Url="/sample/sampleGridDataItemPivotLayout.do"
+                    Layout_Url="/sample/sampleDataAttrItemDetailLayout.do"  Layout_Param_Id="TG_GRID_ATTR_ITEM"
                     Upload_Url="/treegrid/treegridUpload.do" Upload_Param_Class="DataAttrItem"  Upload_Data="DATA"
                     Upload_Flags="AllCols"  Upload_Format="JSON"
                     Upload_Type="Changes"

@@ -2,24 +2,30 @@ package com.datadesign.grid.service.impl;
 
 import com.datadesign.grid.model.DataAttrItem;
 import com.datadesign.grid.repository.DataAttrItemRepository;
-import com.datadesign.grid.service.TGDataAttrItemService;
+import com.datadesign.grid.service.DataAttrItemService;
+import com.datadesign.treegrid.service.TGService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TGDataAttrItemServiceImpl implements TGDataAttrItemService {
+public class DataAttrItemServiceImpl implements TGService<DataAttrItem>, DataAttrItemService {
 
     private final DataAttrItemRepository repository;
 
-    public TGDataAttrItemServiceImpl(DataAttrItemRepository repository) {
+    public DataAttrItemServiceImpl(DataAttrItemRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public DataAttrItem save(DataAttrItem item) {
         return repository.save(item);
+    }
+
+    @Override
+    public List<DataAttrItem> saveAll(List<DataAttrItem> entities) {
+        return repository.saveAll(entities);
     }
 
     @Override
@@ -35,6 +41,11 @@ public class TGDataAttrItemServiceImpl implements TGDataAttrItemService {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Class<DataAttrItem> getTargetType() {
+        return DataAttrItem.class;
     }
 
     @Override
